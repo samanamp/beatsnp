@@ -4,10 +4,7 @@
 #include <cmath>
 #include <iomanip>
 #include <numeric>
-#include "financial_metrics.h" 
-
-
-
+#include "financial_metrics.h"
 
 
 int main() {
