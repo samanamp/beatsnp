@@ -6,15 +6,14 @@
 #include <numeric>
 #include "financial_metrics.h"
 
+// Helper function to calculate statistics for a single window
+struct WindowStats {
+    double annualizedReturn;
+    double totalReturn;
+};
 
-int main() {
-    std::string fileName = "data/spy_avg_price-30-w.csv";
-    int weeklyBudet = 1000;
-
-    std::vector<double> prices;
-    readPrices(prices, fileName);
-
-    // Initialize cash flows
+WindowStats calculateWindowStats(const std::vector<double>& prices, int weeklyBudget) {
+// Initialize cash flows
     std::vector<double> cashFlows;
     double totalInvested = 0.0;
     int shareCount = 0;
@@ -24,7 +23,7 @@ int main() {
     // Simulate weekly investments of $100
     for (size_t i = 0; i < prices.size(); ++i) {
         
-        thisWeekInv = weeklyBudet/prices[i];
+        thisWeekInv = weeklyBudget/prices[i];
         thisWeekInvDollar = prices[i]*thisWeekInv;
         // std::cout << "week " << i << ", " << thisWeekInv << ", " << prices[i] << ", " << thisWeekInvDollar << "\n";
         cashFlows.push_back(-thisWeekInvDollar);  // Investment of $100
@@ -57,6 +56,18 @@ int main() {
     std::cout << "Annualized IRR: " << annualizedIRR * 100 << "%" << std::endl;
     std::cout << "Sharpe Ratio: " << sharpeRatio << std::endl;
     std::cout << "Sortino Ratio: " << sortinoRatio << std::endl;
+
+    return {annualizedIRR, totalReturn};
+}
+
+int main() {
+    std::string fileName = "data/spy_avg_price-30-w.csv";
+    int weeklyBudet = 1000;
+
+    std::vector<double> prices;
+    readPrices(prices, fileName);
+
+    calculateWindowStats(prices, weeklyBudet);
 
     return 0;
 }
