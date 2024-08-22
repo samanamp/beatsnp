@@ -8,7 +8,7 @@
 
 
 int main() {
-    std::string fileName = "data/qqq_avg_price-30-w.csv";
+    std::string fileName = "data/spy_avg_price-30-w.csv";
     int weeklyBudet = 1000;
 
     std::vector<double> prices;

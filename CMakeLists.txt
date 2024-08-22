@@ -23,9 +23,17 @@ endif()
 # find_package(fmt REQUIRED)  # Example of finding a package
 
 # Copy data file to build directory
-configure_file(${CMAKE_SOURCE_DIR}/data/qqq_avg_price-30-w.csv 
-               ${CMAKE_BINARY_DIR}/data/qqq_avg_price-30-w.csv 
-               COPYONLY)
+# Get a list of all .csv files in the source data directory
+file(GLOB CSV_FILES "${CMAKE_SOURCE_DIR}/data/*.csv")
+
+# Loop over each file and configure it
+foreach(CSV_FILE ${CSV_FILES})
+    get_filename_component(FILENAME ${CSV_FILE} NAME)
+    configure_file(${CSV_FILE} 
+                   ${CMAKE_BINARY_DIR}/data/${FILENAME} 
+                   COPYONLY)
+endforeach()
+
 
 # Add executable
 add_executable(${PROJECT_NAME} 
